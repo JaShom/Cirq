@@ -662,6 +662,8 @@ def test_tagged_operation_forwards_protocols():
     assert cirq.commutes(tagged_x, clifford_x)
     assert cirq.commutes(clifford_x, tagged_x)
     assert cirq.commutes(tagged_x, tagged_x)
+    assert cirq.phase_by(clifford_x, 0.125, 0, default=None) is None
+    assert cirq.phase_by(tagged_x, 0.125, 0, default=None) is None
 
     assert cirq.trace_distance_bound(y**0.001) == cirq.trace_distance_bound(
         (y**0.001).with_tags(tag)
@@ -759,6 +761,7 @@ def test_inverse_composite_standards():
     assert cirq.parameter_names(g) == {'a'}
     assert cirq.resolve_parameters(g, {a: 0}) == Gate(0) ** -1
     cirq.testing.assert_implements_consistent_protocols(g, global_vals={'C': Gate, 'a': a})
+    assert str(g) == 'C(a)†'
 
 
 def test_tagged_act_on():
